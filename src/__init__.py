@@ -8,6 +8,21 @@ def get(r: Context) -> Page:
     topics = r.data.get('topics', [])
     following = r.data.get('following', [])
     message = r.env['toast']['get'](r)
+    contents_c, contents_f, contents_t = [
+        ArticleButton(r, article)
+        for article in r.app.db.query(r.env['db']['articles']).all()[:3]
+        if article.author in contacts and not article.unpublished
+    ], [
+        ArticleButton(r, article)
+        for article in r.app.db.query(r.env['db']['articles']).all()[:3]
+        if article.author in following and not article.unpublished
+    ], [
+        ArticleButton(r, article)
+        for article in r.app.db.query(r.env['db']['articles']).all()[:3] if article.topic in topics and not article.unpublished
+    ]
+    contents_c.reverse()
+    contents_f.reverse()
+    contents_t.reverse()
     return Page(
         title="HereUS Articles",
         color=r.user.id.settings.theme_color,
@@ -16,22 +31,13 @@ def get(r: Context) -> Page:
             r.env['topbar'](r, ''),
             Root([
                 Title("From Your Contacts"),
-                Container([
-                    ArticleButton(r, article)
-                    for article in r.app.db.query(r.env['db']['articles']).all()[:3] if article.author in contacts and not article.unpublished
-                ]),
+                Container(contents_c),
                 Button(innertext="View More", onclick=r.start_redirect('/Feeds/Contacts.py')),
                 Title("From Who You Follow"),
-                Container([
-                    ArticleButton(r, article)
-                    for article in r.app.db.query(r.env['db']['articles']).all()[:3] if article.author in following and not article.unpublished
-                ]),
+                Container(contents_f),
                 Button(innertext="View More", onclick=r.start_redirect('/Feeds/Follows.py')),
                 # Title("About Your Topics"),
-                # Container([
-                #     ArticleButton(r, article)
-                #     for article in r.app.db.query(r.env['db']['articles']).all()[:3] if article.topic in topics and not article.unpublished
-                # ]),
+                # Container(contents_t),
                 # Button(innertext="View More", onclick=r.start_redirect('/Feeds/Topics.py')),
             ], margin=Margin(
                 left=Size.pixel(100),

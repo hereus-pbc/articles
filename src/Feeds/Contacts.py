@@ -5,6 +5,12 @@ from Widgets.ArticleButton import ArticleButton
 @login_required
 def get(r: Context) -> Page:
     contacts = r.user.request('list_contacts').json().keys()
+    contents = [
+        ArticleButton(r, article)
+        for article in r.app.db.query(r.env['db']['articles']).all()
+        if article.author in contacts and not article.unpublished
+    ]
+    contents.reverse()
     return Page(
         title="HereUS Articles",
         color=r.user.id.settings.theme_color,
@@ -13,10 +19,7 @@ def get(r: Context) -> Page:
             r.env['topbar'](r, ''),
             Root([
                 Title("From Your Contacts"),
-                Container([
-                    ArticleButton(r, article)
-                    for article in r.app.db.query(r.env['db']['articles']).all() if article.author in contacts and not article.unpublished
-                ]),
+                Container(contents),
                 Label("That's all!"),
             ], margin=Margin(
                 left=Size.pixel(100),
