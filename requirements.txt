@@ -1,0 +1,19 @@
+
+certifi==2024.8.30
+cffi==1.17.1
+charset-normalizer==3.3.2
+cryptography==43.0.1
+idna==3.8
+pycparser==2.22
+requests==2.32.3
+TheProtocols @ git+https://github.com/islekcaganmert/theprotocols.py.git@c3f2a2b09fd1c55c94fae9512fa20108a5479632
+urllib3==2.2.2
+gunicorn==23.0.0
+hereus_ui_3_2==3.2.0
+Jinja2==3.1.4
+MarkupSafe==2.1.5
+PyJWT==2.9.0
+SQLAlchemy==2.0.34
+typing_extensions==4.12.2
+BevyFrame @ git+https://github.com/islekcaganmert/bevyframe.git@6dda2dd281508f7974c5d11acddcd7ec6077bdf4
+pycountry==24.6.1
