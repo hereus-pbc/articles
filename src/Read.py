@@ -50,6 +50,7 @@ def get(r: Context) -> Page:
             'url': f"https://articles.hereus.net/Read.py?id={id}",
             'type': 'article',
         },
+        author=str(user),
         childs=[
             Button(
                 'mini',
