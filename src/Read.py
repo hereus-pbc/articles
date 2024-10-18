@@ -43,6 +43,13 @@ def get(r: Context) -> Page:
     return Page(
         title="HereUS Articles",
         color=r.user.id.settings.theme_color,
+        OpenGraph={
+            'title': article.title,
+            'description': f"By {user} on {article.date.strftime('%B %d, %Y')}",
+            'image': '',
+            'url': f"https://articles.hereus.net/Read.py?id={id}",
+            'type': 'article',
+        },
         childs=[
             Button(
                 'mini',
