@@ -49,7 +49,7 @@ def get(r: Context, saved=True) -> Page:
                                 Widget(
                                     'p',
                                     cursor=Cursor.pointer,
-                                    onclick=r.start_redirect(f'/Write.py?title={title}'),
+                                    onclick=r.start_redirect(f'/Write.py?title={x}'),
                                     innertext=x,
                                 )
                                 for x in editables
