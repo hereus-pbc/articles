@@ -85,6 +85,7 @@ def get(r: Context) -> Page:
                     left=Size.pixel(60),
                 ),
             ),
+            '' if r.email.split('@')[0] == 'Guest' else
             Button(
                 'mini',
                 innertext=Icon('add'),
